@@ -1,0 +1,84 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #282c34;
+    color: #61dafb;
+}
+
+canvas {
+    border: 2px solid #61dafb;
+    background-color: #000;
+}
+
+#welcome {
+    text-align: center;
+    width: 100%;
+}
+
+.login-container {
+    background-color: #20232a;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    margin: 0 auto; 
+    text-align: center;
+}
+
+.login-container h1 {
+    margin-bottom: 20px;
+    color: #61dafb;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #61dafb;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #61dafb;
+    border-radius: 5px;
+    background-color: #282c34;
+    color: #61dafb;
+    font-size: 16px;
+}
+
+
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #61dafb;
+    color: #20232a;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #21a1f1;
+}
+
+#game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#score {
+    font-size: 24px;
+    margin-top: 10px;
+}

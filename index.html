@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Ping-Pong</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="welcome">
+        <div class="login-container">
+            <h1>Bem-vindo ao Ping-Pong</h1>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="playerName">Digite seu nome:</label>
+                    <input type="text" id="playerName" placeholder="Seu nome" required>
+                </div>
+                <button type="button" onclick="startGame()">Iniciar Jogo</button>
+            </form>
+        </div>
+    </div>
+    <div id="game" style="display:none;">
+        <h1 id="greeting"></h1>
+        <canvas id="gameCanvas" width="800" height="400"></canvas>
+        <div id="score">
+            <span id="playerScore">0</span> - <span id="computerScore">0</span>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
