@@ -4,7 +4,8 @@ let computerScore = 0;
 const maxScore = 5;
 
 
-const som = document.getElementById('som-colisao-player');
+const som = document.getElementById('som-colisao-parede');
+const colisaoplayer = document.getElementById('som-colisao-player');
 
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
@@ -43,6 +44,7 @@ function gameLoop() {
     movePlayerPaddle();
     drawEverything();
     checkScore();
+    increaseDifficult();
     requestAnimationFrame(gameLoop);
 }
 
@@ -84,10 +86,10 @@ function resetBall() {
 }
 
 function moveComputerPaddle() {
-    if (computerY + paddleHeight / 2 < ballY) {
-        computerY += 4;
+    if (computerY + paddleHeight / 1.5 < ballY) {
+        computerY += 1.5;
     } else {
-        computerY -= 4;
+        computerY -= 1.5;
     }
 }
 
@@ -139,6 +141,6 @@ function checkScore() {
 }
 
 function increaseDifficult() {
-    ballSpeedX = ballSpeedX * 2;
-    ballSpeedY = ballSpeedY * 2;
+    ballSpeedX = ballSpeedX * 1;
+    ballSpeedY = ballSpeedY * 1;
 }
