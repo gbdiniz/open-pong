@@ -60,6 +60,7 @@ function moveBall() {
     if (ballX + ballRadius > canvas.width) {
         if (ballY > computerY && ballY < computerY + paddleHeight) {
             ballSpeedX = -ballSpeedX;
+            colisaoplayer.play();
         } else {
             playerScore++;
             resetBall();
@@ -70,6 +71,7 @@ function moveBall() {
     if (ballX - ballRadius < 0) {
         if (ballY > playerY && ballY < playerY + paddleHeight) {
             ballSpeedX = -ballSpeedX;
+            colisaoplayer.play();
         } else {
             computerScore++;
             resetBall();
@@ -79,17 +81,17 @@ function moveBall() {
 }
 
 function resetBall() {
-    // setInterval(increaseDifficult(), 113000);
+    setInterval(increaseDifficult(), 113000);
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
     ballSpeedX = -ballSpeedX;
 }
 
 function moveComputerPaddle() {
-    if (computerY + paddleHeight / 1.5 < ballY) {
-        computerY += 1.5;
+    if (computerY + paddleHeight / 2 < ballY) {
+        computerY += 1.6;
     } else {
-        computerY -= 1.5;
+        computerY -= 1.6;
     }
 }
 
