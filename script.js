@@ -6,6 +6,9 @@ const maxScore = 5;
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
+const ballImage = new Image();
+ballImage.src = 'ball.png';
+
 const paddleWidth = 10, paddleHeight = 100, ballRadius = 10;
 let playerY = (canvas.height - paddleHeight) / 2;
 let computerY = (canvas.height - paddleHeight) / 2;
@@ -68,6 +71,7 @@ function moveBall() {
 }
 
 function resetBall() {
+    // setInterval(increaseDifficult(), 113000);
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
     ballSpeedX = -ballSpeedX;
@@ -115,10 +119,7 @@ function drawEverything() {
     ctx.fillRect(0, playerY, paddleWidth, paddleHeight);
     ctx.fillRect(canvas.width - paddleWidth, computerY, paddleWidth, paddleHeight);
 
-    ctx.beginPath();
-    ctx.arc(ballX, ballY, ballRadius, 0, Math.PI * 2, true);
-    ctx.fillStyle = '#61dafb';
-    ctx.fill();
+    ctx.drawImage(ballImage, ballX - ballRadius, ballY - ballRadius, ballRadius * 2, ballRadius * 2);
 
     document.getElementById('playerScore').innerText = playerScore;
     document.getElementById('computerScore').innerText = computerScore;
@@ -130,3 +131,8 @@ function checkScore() {
         resetGame();
     }
 }
+
+// function increaseDifficult() {
+//     ballSpeedX = ballSpeedX * 2;
+//     ballSpeedY = ballSpeedY * 2;
+// }
