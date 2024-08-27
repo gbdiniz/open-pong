@@ -3,6 +3,9 @@ let playerScore = 0;
 let computerScore = 0;
 const maxScore = 5;
 
+
+const som = document.getElementById('som-colisao-player');
+
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -49,6 +52,7 @@ function moveBall() {
 
     if (ballY + ballRadius > canvas.height || ballY - ballRadius < 0) {
         ballSpeedY = -ballSpeedY;
+        som.play();
     }
 
     if (ballX + ballRadius > canvas.width) {
@@ -57,6 +61,7 @@ function moveBall() {
         } else {
             playerScore++;
             resetBall();
+            som.play();
         }
     }
 
@@ -66,6 +71,7 @@ function moveBall() {
         } else {
             computerScore++;
             resetBall();
+            som.play();
         }
     }
 }
@@ -132,7 +138,7 @@ function checkScore() {
     }
 }
 
-// function increaseDifficult() {
-//     ballSpeedX = ballSpeedX * 2;
-//     ballSpeedY = ballSpeedY * 2;
-// }
+function increaseDifficult() {
+    ballSpeedX = ballSpeedX * 2;
+    ballSpeedY = ballSpeedY * 2;
+}
