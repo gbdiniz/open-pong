@@ -65,7 +65,7 @@ function gameLoop(timestamp) {
     movePlayerPaddle();
     drawEverything(timestamp);
     checkScore();
-    increaseDifficult();
+    // increaseDifficult();
     requestAnimationFrame(gameLoop);
 }
 
