@@ -10,9 +10,11 @@ body {
     color: #61dafb;
 }
 
-canvas {
-    border: 2px solid #265866;
-    background-color: #000;
+#gameCanvas {
+    background-image: url('table.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
 }
 
 #welcome {

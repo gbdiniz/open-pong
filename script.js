@@ -13,20 +13,41 @@ const ctx = canvas.getContext('2d');
 const ballImage = new Image();
 ballImage.src = 'ball.png';
 
-const paddleWidth = 10, paddleHeight = 100, ballRadius = 10;
+const playerRacket = new Image();
+playerRacket.src = 'assets/sprites/player/player_racket0.png';
+
+// const playerRacket = document.getElementById('playerRacket');
+
+const iaRacket = new Image();
+iaRacket.src = 'assets/sprites/ia_racket.png';
+
+const paddleWidth = 96, paddleHeight = 96, ballRadius = 10;
 let playerY = (canvas.height - paddleHeight) / 2;
 let computerY = (canvas.height - paddleHeight) / 2;
 let ballX = canvas.width / 2, ballY = canvas.height / 2;
-let ballSpeedX = 5, ballSpeedY = 2;
+let ballSpeedX = 5, ballSpeedY = 2.5;
 let upPressed = false;
 let downPressed = false;
+
+const animationFrames = [];
+let currentFrame = 0;
+let animationInProgress = false;
+let lastFrameTime = 0;
+const frameDuration = 50;
+
+// Carregar as imagens da sequência de animação
+for (let i = 0; i < 6; i++) { // Supondo que você tenha 6 imagens na sequência
+    const img = new Image();
+    img.src = `assets/sprites/player/player_racket${i}.png`; // Substitua pelo caminho correto
+    animationFrames.push(img);
+}
 
 function startGame() {
     playerName = document.getElementById('playerName').value || "Jogador";
     document.getElementById('welcome').style.display = 'none';
     document.getElementById('greeting').innerText = `Bem-vindo, ${playerName}!`;
     document.getElementById('game').style.display = 'block';
-    gameLoop();
+    requestAnimationFrame(gameLoop);
 }
 
 function resetGame() {
@@ -35,17 +56,23 @@ function resetGame() {
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
     ballSpeedX = 5;
-    ballSpeedY = 2;
+    ballSpeedY = 2.5;
 }
 
-function gameLoop() {
+function gameLoop(timestamp) {
     moveBall();
     moveComputerPaddle();
     movePlayerPaddle();
-    drawEverything();
+    drawEverything(timestamp);
     checkScore();
     increaseDifficult();
     requestAnimationFrame(gameLoop);
+}
+
+function startPaddleAnimation() {
+    animationInProgress = true;
+    currentFrame = 0; // Reiniciar a animação
+    lastFrameTime = 0;
 }
 
 function moveBall() {
@@ -57,7 +84,7 @@ function moveBall() {
         som.play();
     }
 
-    if (ballX + ballRadius > canvas.width) {
+    if (ballX + ballRadius > (canvas.width - 66)) {
         if (ballY > computerY && ballY < computerY + paddleHeight) {
             ballSpeedX = -ballSpeedX;
             colisaoplayer.play();
@@ -68,10 +95,11 @@ function moveBall() {
         }
     }
 
-    if (ballX - ballRadius < 0) {
+    if (ballX - ballRadius < 66) {
         if (ballY > playerY && ballY < playerY + paddleHeight) {
             ballSpeedX = -ballSpeedX;
             colisaoplayer.play();
+            startPaddleAnimation();
         } else {
             computerScore++;
             resetBall();
@@ -81,7 +109,7 @@ function moveBall() {
 }
 
 function resetBall() {
-    setInterval(increaseDifficult(), 113000);
+    // setInterval(increaseDifficult(), 113000);
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
     ballSpeedX = -ballSpeedX;
@@ -122,12 +150,32 @@ document.addEventListener('keyup', (e) => {
     }
 });
 
-function drawEverything() {
+function drawEverything(timestamp) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    ctx.fillStyle = '#61dafb';
-    ctx.fillRect(0, playerY, paddleWidth, paddleHeight);
-    ctx.fillRect(canvas.width - paddleWidth, computerY, paddleWidth, paddleHeight);
+    if (animationInProgress) {
+        if (timestamp - lastFrameTime > frameDuration) {
+            currentFrame++;
+            lastFrameTime = timestamp;
+
+            if (currentFrame >= animationFrames.length) {
+                currentFrame = 0;
+                animationInProgress = false; // Termina a animação
+            }
+        }
+        ctx.drawImage(animationFrames[currentFrame], 0, playerY, paddleWidth, paddleHeight);
+        if (currentFrame >= animationFrames.length) {
+            currentFrame = 0;
+            animationInProgress = false; // Termina a animação
+        }
+    } else {
+
+        ctx.drawImage(playerRacket, 0, playerY, paddleWidth, paddleHeight);
+
+    }
+    // ctx.fillRect(0, playerY, paddleWidth, paddleHeight);
+    ctx.drawImage(iaRacket, canvas.width - paddleWidth, computerY, paddleWidth, paddleHeight);
+    // ctx.fillRect(canvas.width - paddleWidth, computerY, paddleWidth, paddleHeight);
 
     ctx.drawImage(ballImage, ballX - ballRadius, ballY - ballRadius, ballRadius * 2, ballRadius * 2);
 
@@ -142,7 +190,7 @@ function checkScore() {
     }
 }
 
-function increaseDifficult() {
-    ballSpeedX = ballSpeedX * 1;
-    ballSpeedY = ballSpeedY * 1;
-}
+// function increaseDifficult() {
+//     ballSpeedX = ballSpeedX * 1;
+//     ballSpeedY = ballSpeedY * 1;
+// }
