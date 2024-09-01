@@ -11,7 +11,7 @@ body {
 }
 
 #gameCanvas {
-    background-image: url('table.png');
+    background-image: url('assets/sprites/table.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;

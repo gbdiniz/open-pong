@@ -3,7 +3,6 @@ let playerScore = 0;
 let computerScore = 0;
 const maxScore = 5;
 
-
 const som = document.getElementById('som-colisao-parede');
 const colisaoplayer = document.getElementById('som-colisao-player');
 
