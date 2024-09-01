@@ -11,7 +11,7 @@ const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
 const ballImage = new Image();
-ballImage.src = 'ball.png';
+ballImage.src = 'assets/sprites/ball.png';
 
 const playerRacket = new Image();
 playerRacket.src = 'assets/sprites/player/player_racket0.png';
