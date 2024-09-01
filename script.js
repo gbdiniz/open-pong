@@ -16,10 +16,8 @@ ballImage.src = 'ball.png';
 const playerRacket = new Image();
 playerRacket.src = 'assets/sprites/player/player_racket0.png';
 
-// const playerRacket = document.getElementById('playerRacket');
-
 const iaRacket = new Image();
-iaRacket.src = 'assets/sprites/ia_racket.png';
+iaRacket.src = 'assets/sprites/ia/ia_racket.png';
 
 const paddleWidth = 96, paddleHeight = 96, ballRadius = 10;
 let playerY = (canvas.height - paddleHeight) / 2;
@@ -65,7 +63,6 @@ function gameLoop(timestamp) {
     movePlayerPaddle();
     drawEverything(timestamp);
     checkScore();
-    // increaseDifficult();
     requestAnimationFrame(gameLoop);
 }
 
@@ -109,7 +106,6 @@ function moveBall() {
 }
 
 function resetBall() {
-    // setInterval(increaseDifficult(), 113000);
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
     ballSpeedX = -ballSpeedX;
@@ -153,6 +149,7 @@ document.addEventListener('keyup', (e) => {
 function drawEverything(timestamp) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Animação da Raquete do Player
     if (animationInProgress) {
         if (timestamp - lastFrameTime > frameDuration) {
             currentFrame++;
@@ -173,11 +170,12 @@ function drawEverything(timestamp) {
         ctx.drawImage(playerRacket, 0, playerY, paddleWidth, paddleHeight);
 
     }
-    // ctx.fillRect(0, playerY, paddleWidth, paddleHeight);
-    ctx.drawImage(iaRacket, canvas.width - paddleWidth, computerY, paddleWidth, paddleHeight);
-    // ctx.fillRect(canvas.width - paddleWidth, computerY, paddleWidth, paddleHeight);
 
+    // Desenho da raquete do Player
     ctx.drawImage(ballImage, ballX - ballRadius, ballY - ballRadius, ballRadius * 2, ballRadius * 2);
+
+    // Desenho da raquete da IA
+    ctx.drawImage(iaRacket, canvas.width - paddleWidth, computerY, paddleWidth, paddleHeight);
 
     document.getElementById('playerScore').innerText = playerScore;
     document.getElementById('computerScore').innerText = computerScore;
@@ -189,8 +187,3 @@ function checkScore() {
         resetGame();
     }
 }
-
-// function increaseDifficult() {
-//     ballSpeedX = ballSpeedX * 1;
-//     ballSpeedY = ballSpeedY * 1;
-// }
