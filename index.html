@@ -1,31 +1,60 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jogo Open-Pong</title>
+    <title>Open-Pong</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div id="welcome">
         <div class="login-container">
-            <h1>Bem-vindo ao Ping-Pong</h1>
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="playerName">Digite seu nome:</label>
-                    <input type="text" id="playerName" placeholder="Seu nome" required>
-                </div>
+            <div class="container">
+                <img src="assets/images/logo.png" alt="Logo">
+                <h1>OPEN-PONG</h1>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="playerName">Digite seu nome:</label>
+                        <input type="text" id="playerName" placeholder="Seu nome">
+                    </div>
+                </form>
                 <button type="button" onclick="startGame()">Iniciar Jogo</button>
-            </form>
+            </div>
         </div>
     </div>
+
+    
     <div id="game" style="display:none;">
-        <h1 id="greeting"></h1>
-        <canvas id="gameCanvas" width="968" height="320"></canvas>
-        <div id="score">
-            <span id="playerScore">0</span> - <span id="computerScore">0</span>
+        <div class="gameContainer">
+            <h1 id="greeting" style="padding-bottom: 6px;"></h1>
+            <div id="score" style="padding-bottom: 6px;">
+                <span id="playerScore">0</span> - <span id="computerScore">0</span>
+            </div>
         </div>
+        <canvas id="gameCanvas" width="968px" height="320px"></canvas>
+
+        <p id="timer"></p>
+
+        <div class="buttons">
+            <div class="buttonsContainer">
+                <button onclick="changeDifficult('easy')">Fácil</button>
+                <button onclick="changeDifficult('normal')">Normal</button>
+                <button onclick="changeDifficult('hard')">Difícil</button>
+            </div>
+        </div>
+
+        <footer>
+            Copyright&copy; 2024 OPEN MIND
+        </footer>
     </div>
+
+
     <audio id="som-colisao-parede">
         <source src="assets/sounds/jump.wav" type="audio/wav">
         Seu navegador não suporta esse tipo de audio
@@ -37,4 +66,5 @@
     </audio>
     <script src="script.js"></script>
 </body>
+
 </html>

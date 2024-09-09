@@ -1,20 +1,19 @@
+* {
+    font-family: "Press Start 2P", system-ui;
+    font-size: 12px;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0;
+}
+
 body {
-    font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    margin: 0;
-    background-color: #282c34;
+    background-color: #2F2E50;
     color: #61dafb;
-}
-
-#gameCanvas {
-    background-image: url('assets/sprites/table.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
 }
 
 #welcome {
@@ -23,18 +22,42 @@ body {
 }
 
 .login-container {
-    background-color: #20232a;
-    padding: 20px;
+    /* background-color: #20232a; */
+    background-image: url('assets/images/open-pong-bg.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    max-width: 400px;
-    margin: 0 auto; 
+    height: 100vh;
+    width: 100vw;
+    max-height: 900px;
+    max-width: 1600px;
+    margin: 0 auto;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .login-container h1 {
+    font-size: 3vw;
     margin-bottom: 20px;
-    color: #61dafb;
+    color: #391f44;
+    text-shadow: -1px 1px 0 white,
+        1px 1px 0 white,
+        1px -1px 0 white,
+        -1px -1px 0 white;
+}
+
+
+.container {
+    width: 90%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .form-group {
@@ -45,42 +68,121 @@ body {
 .form-group label {
     display: block;
     margin-bottom: 5px;
-    color: #61dafb;
+    color: #391f44;
+    text-shadow: -1px 1px 0 white,
+        1px 1px 0 white,
+        1px -1px 0 white,
+        -1px -1px 0 white;
 }
 
 .form-group input {
-    width: 100%;
+    width: 97%;
     padding: 10px;
     border: 1px solid #61dafb;
     border-radius: 5px;
     background-color: #282c34;
     color: #61dafb;
-    font-size: 16px;
+    font-size: 12px;
 }
 
-
 button {
-    width: 100%;
+    width: 40%;
     padding: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #61dafb;
+    background-color: transparent;
     color: #20232a;
-    font-size: 16px;
+    font-size: 12px;
     cursor: pointer;
+    color: white;
 }
 
 button:hover {
-    background-color: #b8daf0;
+    color: #b8daf0;
 }
 
 #game {
-    display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    background-image: url('assets/images/open-pong-bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    width: 100vw;
+    max-height: 900px;
+    max-width: 1600px;
+}
+
+.gameContainer {
+    width: 968px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#greeting {
+    font-size: 1.4vw;
 }
 
 #score {
     font-size: 24px;
     margin-top: 10px;
+}
+
+#score span {
+    font-size: 18px;
+}
+
+#gameCanvas {
+    background-image: url('assets/sprites/table.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    max-height: 90%;
+    max-width: 90%;
+}
+
+#timer {
+    position: fixed;
+    font-size: 30px;
+    color: #391f44;
+    text-shadow: -1px 1px 0 white,
+        1px 1px 0 white,
+        1px -1px 0 white,
+        -1px -1px 0 white;
+}
+
+.buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 12px;
+}
+
+.buttonsContainer {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 5px;
+    width: 80%;
+}
+
+.buttonsContainer button {
+    margin-right: 5px;
+}
+
+footer {
+    position: fixed;
+    padding: 10px 10px;
+    margin-top: auto;
+    bottom: 0;
+    right: 20%;
+    left: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }

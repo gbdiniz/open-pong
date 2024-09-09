@@ -16,35 +16,81 @@ const playerRacket = new Image();
 playerRacket.src = 'assets/sprites/player/player_racket0.png';
 
 const iaRacket = new Image();
-iaRacket.src = 'assets/sprites/ia/ia_racket.png';
+iaRacket.src = 'assets/sprites/ia/ia_racket0.png';
 
 const paddleWidth = 96, paddleHeight = 96, ballRadius = 10;
 let playerY = (canvas.height - paddleHeight) / 2;
 let computerY = (canvas.height - paddleHeight) / 2;
 let ballX = canvas.width / 2, ballY = canvas.height / 2;
-let ballSpeedX = 5, ballSpeedY = 2.5;
+
+let velComputerY = 3.5;
+let velBallY = 4.2;
+let velPlayerY = 5;
+
+let ballSpeedX = 5, ballSpeedY = velBallY;
 let upPressed = false;
 let downPressed = false;
 
-const animationFrames = [];
-let currentFrame = 0;
-let animationInProgress = false;
-let lastFrameTime = 0;
-const frameDuration = 50;
+let zPressed = false;
+
+const pAnimationFrames = [];
+let pCurrentFrame = 0;
+let pAnimationInProgress = false;
+let pLastFrameTime = 0;
+
+const iAnimationFrames = [];
+let iCurrentFrame = 0;
+let iAnimationInProgress = false;
+let iLastFrameTime = 0;
+
+const frameDuration = 40;
 
 // Carregar as imagens da sequência de animação
 for (let i = 0; i < 6; i++) { // Supondo que você tenha 6 imagens na sequência
-    const img = new Image();
-    img.src = `assets/sprites/player/player_racket${i}.png`; // Substitua pelo caminho correto
-    animationFrames.push(img);
+    const pImg = new Image();
+    pImg.src = `assets/sprites/player/player_racket${i}.png`; // Substitua pelo caminho correto
+    pAnimationFrames.push(pImg);
+
+    const iImg = new Image();
+    iImg.src = `assets/sprites/ia/ia_racket${i}.png`; // Substitua pelo caminho correto
+    iAnimationFrames.push(iImg);
+
 }
 
 function startGame() {
+
     playerName = document.getElementById('playerName').value || "Jogador";
     document.getElementById('welcome').style.display = 'none';
     document.getElementById('greeting').innerText = `Bem-vindo, ${playerName}!`;
-    document.getElementById('game').style.display = 'block';
+    document.getElementById('game').style.display = 'flex';
+    let myVar = setInterval(myTimer, 1000);
+    let d = 4;
+    function myTimer() {
+
+        d -= 1;
+        document.getElementById("timer").innerHTML = d;
+        if (d == 0) {
+            clearInterval(myVar);
+            document.getElementById('timer').style.display = 'none';
+        }
+    }
     requestAnimationFrame(gameLoop);
+
+}
+
+function changeDifficult(difficult) {
+    if (difficult == 'easy') {
+
+        velComputerY = 3.5;
+        ballSpeedY = 4.2;
+    } else if (difficult == 'normal') {
+        velComputerY = 4.5;
+        ballSpeedY = 5.5;
+    } else {
+        velPlayerY = 6.5;
+        velComputerY = 6.5;
+        ballSpeedY = 8.5;
+    }
 }
 
 function resetGame() {
@@ -53,22 +99,29 @@ function resetGame() {
     ballX = canvas.width / 2;
     ballY = canvas.height / 2;
     ballSpeedX = 5;
-    ballSpeedY = 2.5;
+    ballSpeedY = velBallY;
 }
 
 function gameLoop(timestamp) {
-    moveBall();
+    drawEverything(timestamp);
+    setTimeout(moveBall, 4000);
+
     moveComputerPaddle();
     movePlayerPaddle();
-    drawEverything(timestamp);
     checkScore();
     requestAnimationFrame(gameLoop);
 }
 
-function startPaddleAnimation() {
-    animationInProgress = true;
-    currentFrame = 0; // Reiniciar a animação
-    lastFrameTime = 0;
+function startPaddlePAnimation() {
+    pAnimationInProgress = true;
+    pCurrentFrame = 0; // Reiniciar a animação
+    pLastFrameTime = 0;
+}
+
+function startPaddleIAnimation() {
+    iAnimationInProgress = true;
+    iCurrentFrame = 0; // Reiniciar a animação
+    iLastFrameTime = 0;
 }
 
 function moveBall() {
@@ -84,6 +137,7 @@ function moveBall() {
         if (ballY > computerY && ballY < computerY + paddleHeight) {
             ballSpeedX = -ballSpeedX;
             colisaoplayer.play();
+            startPaddleIAnimation();
         } else {
             playerScore++;
             resetBall();
@@ -92,10 +146,12 @@ function moveBall() {
     }
 
     if (ballX - ballRadius < 66) {
-        if (ballY > playerY && ballY < playerY + paddleHeight) {
+        if (ballY > playerY && ballY < playerY + paddleHeight && zPressed) {
             ballSpeedX = -ballSpeedX;
             colisaoplayer.play();
-            startPaddleAnimation();
+            startPaddlePAnimation();
+
+
         } else {
             computerScore++;
             resetBall();
@@ -112,18 +168,18 @@ function resetBall() {
 
 function moveComputerPaddle() {
     if (computerY + paddleHeight / 2 < ballY) {
-        computerY += 1.6;
+        computerY += velComputerY;
     } else {
-        computerY -= 1.6;
+        computerY -= velComputerY;
     }
 }
 
 function movePlayerPaddle() {
     if (upPressed && playerY > 0) {
-        playerY -= 5;
+        playerY -= velPlayerY;
     }
     if (downPressed && playerY < canvas.height - paddleHeight) {
-        playerY += 5;
+        playerY += velPlayerY;
     }
 }
 
@@ -134,6 +190,9 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowDown') {
         downPressed = true;
     }
+    if (e.key === 'z') {
+        zPressed = true;
+    }
 });
 
 document.addEventListener('keyup', (e) => {
@@ -143,26 +202,73 @@ document.addEventListener('keyup', (e) => {
     if (e.key === 'ArrowDown') {
         downPressed = false;
     }
+    if (e.key === 'z') {
+        setTimeout(zPressed = false, 2000);
+    }
 });
+
+// function checkAnimation(animeInProgress, lastFrameT, currentFrame, animationFrames, sprite, spriteY, timestamp) {    
+//     if (animeInProgress) {
+//         if (timestamp - lastFrameT > frameDuration) {
+//             currentFrame++;
+//             lastFrameT = timestamp;
+
+//             if (currentFrame >= animationFrames.length) {
+//                 currentFrame = 0;
+//                 animeInProgress = false; // Termina a animação
+//             }
+//         }
+//         ctx.drawImage(animationFrames[currentFrame], canvas.width - paddleWidth, spriteY, paddleWidth, paddleHeight);
+//         if (currentFrame >= animationFrames.length) {
+//             currentFrame = 0;
+//             animeInProgress = false; // Termina a animação
+//         }
+//     } else {
+
+//         ctx.drawImage(sprite, canvas.width - paddleWidth, spriteY, paddleWidth, paddleHeight);
+
+//     }
+// }
 
 function drawEverything(timestamp) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Animação da Raquete do Player
-    if (animationInProgress) {
-        if (timestamp - lastFrameTime > frameDuration) {
-            currentFrame++;
-            lastFrameTime = timestamp;
+    if (iAnimationInProgress) {
+        if (timestamp - iLastFrameTime > frameDuration) {
+            iCurrentFrame++;
+            iLastFrameTime = timestamp;
 
-            if (currentFrame >= animationFrames.length) {
-                currentFrame = 0;
-                animationInProgress = false; // Termina a animação
+            if (iCurrentFrame >= iAnimationFrames.length) {
+                iCurrentFrame = 0;
+                iAnimationInProgress = false; // Termina a animação
             }
         }
-        ctx.drawImage(animationFrames[currentFrame], 0, playerY, paddleWidth, paddleHeight);
-        if (currentFrame >= animationFrames.length) {
-            currentFrame = 0;
-            animationInProgress = false; // Termina a animação
+        ctx.drawImage(iAnimationFrames[iCurrentFrame], canvas.width - paddleWidth, computerY, paddleWidth, paddleHeight);
+        if (iCurrentFrame >= iAnimationFrames.length) {
+            iCurrentFrame = 0;
+            iAnimationInProgress = false; // Termina a animação
+        }
+    } else {
+
+        ctx.drawImage(iaRacket, canvas.width - paddleWidth, computerY, paddleWidth, paddleHeight);
+
+    }
+
+    // Animação da Raquete do Player
+    if (pAnimationInProgress) {
+        if (timestamp - pLastFrameTime > frameDuration) {
+            pCurrentFrame++;
+            pLastFrameTime = timestamp;
+
+            if (pCurrentFrame >= pAnimationFrames.length) {
+                pCurrentFrame = 0;
+                pAnimationInProgress = false; // Termina a animação
+            }
+        }
+        ctx.drawImage(pAnimationFrames[pCurrentFrame], 0, playerY, paddleWidth, paddleHeight);
+        if (pCurrentFrame >= pAnimationFrames.length) {
+            pCurrentFrame = 0;
+            pAnimationInProgress = false; // Termina a animação
         }
     } else {
 
@@ -170,11 +276,10 @@ function drawEverything(timestamp) {
 
     }
 
+    // checkAnimation(iAnimationInProgress, iLastFrameTime, iCurrentFrame, iAnimationFrames, iaRacket, computerY, timestamp)
+
     // Desenho da raquete do Player
     ctx.drawImage(ballImage, ballX - ballRadius, ballY - ballRadius, ballRadius * 2, ballRadius * 2);
-
-    // Desenho da raquete da IA
-    ctx.drawImage(iaRacket, canvas.width - paddleWidth, computerY, paddleWidth, paddleHeight);
 
     document.getElementById('playerScore').innerText = playerScore;
     document.getElementById('computerScore').innerText = computerScore;
