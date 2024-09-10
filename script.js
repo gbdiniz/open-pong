@@ -279,7 +279,13 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowUp') { // Verifica se tecla "Seta para cima" está sendo pressionada
         upPressed = true;
     }
+    if (e.key === 'i') { // Verifica se tecla "Seta para cima" está sendo pressionada
+        upPressed = true;
+    }
     if (e.key === 'ArrowDown') { // Verifica se tecla "Seta para baixo" está sendo pressionada
+        downPressed = true;
+    }
+    if (e.key === 'k') { // Verifica se tecla "Seta para baixo" está sendo pressionada
         downPressed = true;
     }
     if (e.key === 'z') { // Verifica se tecla "z" está sendo pressionada
@@ -291,7 +297,13 @@ document.addEventListener('keyup', (e) => {
     if (e.key === 'ArrowUp') { // Verifica se tecla "Seta para cima" parou de ser pressionada
         upPressed = false;
     }
+    if (e.key === 'i') { // Verifica se tecla "Seta para cima" parou de ser pressionada
+        upPressed = false;
+    }
     if (e.key === 'ArrowDown') { // Verifica se tecla "Seta para baixo" parou de ser pressionada
+        downPressed = false;
+    }
+    if (e.key === 'k') { // Verifica se tecla "Seta para baixo" parou de ser pressionada
         downPressed = false;
     }
     if (e.key === 'z') { // Verifica se tecla "z" parou de ser pressionada
