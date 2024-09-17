@@ -41,6 +41,8 @@ let pCurrentFrame = 0;
 let pAnimationInProgress = false;
 let pLastFrameTime = 0;
 
+let alreadyPressed = false;
+
 // IA
 
 let computerY = (canvas.height - paddleHeight) / 2;
@@ -88,11 +90,11 @@ function startGame() {
 
     // MOVE PARA A PRÓXIMA CENA
 
-    document.getElementById('welcome').style.display = 'none'; 
+    document.getElementById('welcome').style.display = 'none';
     document.getElementById('game').style.display = 'flex';
 
     document.getElementById('greeting').innerText = `Bem-vindo, ${playerName}!`; // Define o texto de boas-vindas
-    
+
     let timer = setInterval(myTimer, 1000);
     let s = 4;
     function myTimer() {
@@ -193,9 +195,9 @@ function moveBall() {
             colisaoplayer.play();
             startPaddleIAnimation();
         } else {
-            playerScore++;
-            resetBall();
-            som.play();
+                playerScore++;
+                resetBall();
+                som.play();
         }
     }
 
@@ -203,7 +205,7 @@ function moveBall() {
         if (ballY > playerY && ballY < playerY + paddleHeight && zPressed) {
             setInterval(ballSpeedX = -ballSpeedX, 1000)
             colisaoplayer.play();
-            startPaddlePAnimation();
+            // startPaddlePAnimation();
 
         } else {
             computerScore++;
@@ -258,13 +260,13 @@ function checkScore() { //Verifica se o jogador ou a IA ganharam
 function changeDifficult(difficult) {
     if (difficult == 'easy') {
 
-        velComputerY = 2.9;
+        velComputerY = 3.2;
         ballSpeedY = 4.2;
 
     } else if (difficult == 'normal') {
 
         velComputerY = 4.5;
-        ballSpeedY = 5.5;
+        ballSpeedY = 5.9;
 
     } else {
 
@@ -288,9 +290,9 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'k') { // Verifica se tecla "Seta para baixo" está sendo pressionada
         downPressed = true;
     }
-    if (e.key === 'z') { // Verifica se tecla "z" está sendo pressionada
-        zPressed = true;
-    }
+    // if (e.key === 'z') { // Verifica se tecla "z" está sendo pressionada
+
+    // }
 });
 
 document.addEventListener('keyup', (e) => {
@@ -307,6 +309,19 @@ document.addEventListener('keyup', (e) => {
         downPressed = false;
     }
     if (e.key === 'z') { // Verifica se tecla "z" parou de ser pressionada
-        setTimeout(function() {zPressed = false;}, 450); // Faz com que a tecla demore para ser computada como não pressionada
+        if (!alreadyPressed) {
+            zPressed = true;
+            alreadyPressed = true;
+            startPaddlePAnimation();
+            setTimeout(function() {
+                zPressed = false;
+            }, 350)
+
+            setTimeout(function () {      
+                alreadyPressed = false;
+            }, 600); // Faz com que a tecla demore para ser computada como não pressionada
+        }
+
+
     }
 });
