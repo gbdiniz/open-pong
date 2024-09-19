@@ -21,6 +21,28 @@ body {
     width: 100%;
 }
 
+.help-container {
+    background-image: url('assets/images/open-pong-bg.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
 .login-container {
     /* background-color: #20232a; */
     background-image: url('assets/images/open-pong-bg.jpg');
@@ -85,20 +107,47 @@ body {
     font-size: 12px;
 }
 
-button {
-    width: 40%;
-    padding: 10px;
+.menu-choose {
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-choose button {
+    width: 100%;
+    margin: 10px;
+    margin-left: -10px;
+    display: flex;
     border: none;
     border-radius: 5px;
     background-color: transparent;
     color: #20232a;
-    font-size: 12px;
+    font-size: 20px;
     cursor: pointer;
     color: white;
+    transition: all 0.5s;
+    transition-timing-function: ease-out;
 }
 
-button:hover {
+.menu-choose button:hover {
+    font-size: 22px;
     color: #b8daf0;
+}
+
+.menu-choose button > i {
+    margin-top: 8px;
+    margin-right: 16px;
+}
+
+.menu-choose button > i.hide-icon {
+    transition: all 0.5s;
+    position: relative;
+    left: -10px;
+    opacity: 0;
+}
+
+.menu-choose button:hover>i.hide-icon {
+    left: 0;
+    opacity: 1;
 }
 
 #game {

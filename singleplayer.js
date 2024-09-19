@@ -43,29 +43,36 @@ let pLastFrameTime = 0;
 
 let alreadyPressed = false;
 
-// IA
+// PLAYER 2
 
 let computerY = (canvas.height - paddleHeight) / 2;
-let velComputerY = 3.5;
+let velComputerY = 1.5;
 
 const iAnimationFrames = [];
 let iCurrentFrame = 0;
 let iAnimationInProgress = false;
 let iLastFrameTime = 0;
 
+let alreadyTwoPressed = false;
+
 // BOLA
 
-let ballX = canvas.width / 2, ballY = canvas.height / 2;
-let velBallY = 4.2;
-let ballSpeedX = 5, ballSpeedY = velBallY;
+let ballX = 55, ballY = canvas.height / 2;
+let velBallY = 2;
+var ofBallSpeedX = 8;
+let ballSpeedX = 0, ballSpeedY = 0;
+
+var gravity = 0.5;
+var bounce = 0.7;
+var xFriction = 0.1;
 
 // TECLAS
 
 let upPressed = false;
 let downPressed = false;
-let zPressed = false;
+let attackPressed = false;
 
-
+let isHolding = true;
 
 // Carregar as imagens da sequência de animação
 for (let i = 0; i < 6; i++) { // Supondo que você tenha 6 imagens na sequência
@@ -84,27 +91,28 @@ for (let i = 0; i < 6; i++) { // Supondo que você tenha 6 imagens na sequência
 
 }
 
-function startGame() {
+function startGame(isMulti = false) {
 
-    playerName = document.getElementById('playerName').value || "Jogador"; // Define o nome do jogador
+    // playerName = document.getElementById('playerName').value || "Jogador"; // Define o nome do jogador
 
     // MOVE PARA A PRÓXIMA CENA
 
     document.getElementById('welcome').style.display = 'none';
+    // document.getElementById('help').style.display = 'flex';
     document.getElementById('game').style.display = 'flex';
 
     document.getElementById('greeting').innerText = `Bem-vindo, ${playerName}!`; // Define o texto de boas-vindas
 
-    let timer = setInterval(myTimer, 1000);
-    let s = 4;
-    function myTimer() {
-        s -= 1;
-        document.getElementById("timer").innerHTML = s;
-        if (s == 0) {
-            clearInterval(timer);
-            document.getElementById('timer').style.display = 'none'; // Tira a contagem da tela
-        }
-    }
+    // let timer = setInterval(myTimer, 1000);
+    // let s = 4;
+    // function myTimer() {
+    //     s -= 1;
+    //     document.getElementById("timer").innerHTML = s;
+    //     if (s == 0) {
+    //         clearInterval(timer);
+    //         document.getElementById('timer').style.display = 'none'; // Tira a contagem da tela
+    //     }
+    // }
     requestAnimationFrame(gameLoop);
 
 }
@@ -112,16 +120,21 @@ function startGame() {
 function resetGame() {
     playerScore = 0;
     computerScore = 0;
-    ballX = canvas.width / 2;
+    ballX = 55;
     ballY = canvas.height / 2;
-    ballSpeedX = 5;
+    ballSpeedX = ofBallSpeedX;
     ballSpeedY = velBallY;
 }
 
 function gameLoop(timestamp) {
     drawEverything(timestamp);
-    setTimeout(moveBall, 4000);
+    if (isHolding && attackPressed) {
+        isHolding = false;
+        ballSpeedX = ofBallSpeedX;
+        ballSpeedY = velBallY;
+    }
 
+    moveBall();
     moveComputerPaddle();
     movePlayerPaddle();
     checkScore();
@@ -187,46 +200,83 @@ function moveBall() {
     if (ballY + ballRadius > canvas.height || ballY - ballRadius < 0) {
         ballSpeedY = -ballSpeedY;
         som.play();
+        setInterval(xF, 14);
     }
 
-    if (ballX + ballRadius > (canvas.width - 66)) {
+    if (ballX + ballRadius > (canvas.width - 44)) {
         if (ballY > computerY && ballY < computerY + paddleHeight) {
-            ballSpeedX = -ballSpeedX;
+
+            if (ballSpeedX == ofBallSpeedX * 2) {
+                ballSpeedX = -ofBallSpeedX * 2;
+            } else {
+                ballSpeedX = -ofBallSpeedX * 2;
+            }
             colisaoplayer.play();
             startPaddleIAnimation();
+
         } else {
-                playerScore++;
-                resetBall();
-                som.play();
+            playerScore++;
+            resetBall();
+            som.play();
         }
     }
 
     if (ballX - ballRadius < 44) {
-        if (ballY > playerY && ballY < playerY + paddleHeight && zPressed) {
-            setInterval(ballSpeedX = -ballSpeedX, 1000)
+        if (ballY > playerY && ballY < playerY + paddleHeight && attackPressed) {
+            if (ballSpeedX == ofBallSpeedX * 2) {
+                ballSpeedX = -ballSpeedX;
+            } else {
+                ballSpeedX = -ballSpeedX * 2;
+            }
             colisaoplayer.play();
             // startPaddlePAnimation();
 
         } else {
             computerScore++;
-            resetBall();
+            resetBall(isTwoScored = true);
             som.play();
         }
     }
 }
 
-function resetBall() {
-    ballX = canvas.width / 2;
-    ballY = canvas.height / 2;
-    ballSpeedX = -ballSpeedX;
+function xF() {
+    if (ballSpeedX > ofBallSpeedX)
+        ballSpeedX = ballSpeedX - xFriction;
+    if (ballSpeedX < -ofBallSpeedX)
+        ballSpeedX = ballSpeedX + xFriction;
+}
+
+function resetBall(isTwoScored = false) {
+    if (isTwoScored) {
+        ballX = canvas.width - 65;
+        ballY = computerY + 34;
+        ballSpeedX = 0;
+        ballSpeedY = 0;
+        setTimeout(function () {
+            ballSpeedX = ofBallSpeedX;
+            ballSpeedY = velBallY;
+        }, 1000);
+
+    } else {
+        ballX = 55;
+        ballY = playerY + 34;
+        ballSpeedX = 0;
+        ballSpeedY = 0;
+        isHolding = true;
+
+    }
+
 }
 
 function moveComputerPaddle() {
+
     if (computerY + paddleHeight / 2 < ballY) {
         computerY += velComputerY;
     } else {
         computerY -= velComputerY;
     }
+
+
 }
 
 function movePlayerPaddle() {
@@ -260,68 +310,59 @@ function checkScore() { //Verifica se o jogador ou a IA ganharam
 function changeDifficult(difficult) {
     if (difficult == 'easy') {
 
-        velComputerY = 3.2;
-        ballSpeedY = 4.2;
+        ofBallSpeedX = 8;
+
+        // velComputerY = 3.2;
+        // ballSpeedY = 4.2;
 
     } else if (difficult == 'normal') {
 
-        velComputerY = 4.5;
-        ballSpeedY = 5.9;
+        ofBallSpeedX = 10;
+
+        // velComputerY = 4.5;
+        // ballSpeedY = 5.9;
 
     } else {
 
-        velPlayerY = 6.5;
-        velComputerY = 6.5;
-        ballSpeedY = 8.5;
+        ofBallSpeedX = 12;
+
+        // velPlayerY = 6.5;
+        // velComputerY = 6.5;
+        // ballSpeedY = 8.5;
 
     }
 }
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowUp') { // Verifica se tecla "Seta para cima" está sendo pressionada
+    if (e.key === 'w') { // Verifica se tecla "Seta para cima" está sendo pressionada
         upPressed = true;
     }
-    if (e.key === 'i') { // Verifica se tecla "Seta para cima" está sendo pressionada
-        upPressed = true;
-    }
-    if (e.key === 'ArrowDown') { // Verifica se tecla "Seta para baixo" está sendo pressionada
+    if (e.key === 's') { // Verifica se tecla "Seta para baixo" está sendo pressionada
         downPressed = true;
     }
-    if (e.key === 'k') { // Verifica se tecla "Seta para baixo" está sendo pressionada
-        downPressed = true;
-    }
-    // if (e.key === 'z') { // Verifica se tecla "z" está sendo pressionada
-
-    // }
-});
-
-document.addEventListener('keyup', (e) => {
-    if (e.key === 'ArrowUp') { // Verifica se tecla "Seta para cima" parou de ser pressionada
-        upPressed = false;
-    }
-    if (e.key === 'i') { // Verifica se tecla "Seta para cima" parou de ser pressionada
-        upPressed = false;
-    }
-    if (e.key === 'ArrowDown') { // Verifica se tecla "Seta para baixo" parou de ser pressionada
-        downPressed = false;
-    }
-    if (e.key === 'k') { // Verifica se tecla "Seta para baixo" parou de ser pressionada
-        downPressed = false;
-    }
-    if (e.key === 'z') { // Verifica se tecla "z" parou de ser pressionada
+    if (e.key === 'c') { // Verifica se tecla "z" está sendo pressionada
         if (!alreadyPressed) {
-            zPressed = true;
+            attackPressed = true;
             alreadyPressed = true;
             startPaddlePAnimation();
-            setTimeout(function() {
-                zPressed = false;
+            setTimeout(function () {
+                attackPressed = false;
             }, 350)
 
-            setTimeout(function () {      
+            setTimeout(function () {
                 alreadyPressed = false;
             }, 600); // Faz com que a tecla demore para ser computada como não pressionada
         }
-
-
     }
+
+});
+
+document.addEventListener('keyup', (e) => {
+    if (e.key === 'w') { // Verifica se tecla "Seta para cima" parou de ser pressionada
+        upPressed = false;
+    }
+    if (e.key === 's') { // Verifica se tecla "Seta para baixo" parou de ser pressionada
+        downPressed = false;
+    } downTwoPressed = false;
+
 });
