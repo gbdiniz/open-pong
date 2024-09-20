@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open-Pong</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/28ffdab0f6.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id="welcome">
+        <div class="login-container">
+            <div class="container">
+                <img src="assets/images/logo.png" alt="Logo">
+                <h1>OPEN-PONG</h1>
+                <form id="loginForm" onsubmit="startGame()">
+                    <!-- <div class="form-group">
+                        <label for="playerName">Digite seu nome:</label>
+                        <input type="text" id="playerName" placeholder="Seu nome">
+                    </div> -->
+                </form>
+                <div class="menu-choose">
+                    <button class="opt-button" type="button" onclick="startGame()"><i
+                            class="fa-solid fa-play fa-bounce fa-lg hide-icon"></i><i
+                            class="fa-solid fa-child fa-lg"></i> Um jogador</button>
+                    <button type="button" onclick="startGame(isMulti = true)"><i
+                            class="fa-solid fa-play fa-bounce fa-lg hide-icon"></i>
+                        <i class="fa-solid fa-child fa-lg" style="color: #c4c4c4;"></i><i
+                            class="fa-solid fa-child fa-lg" style="margin-left: -24px;"></i>Dois jogadores</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="choose-difficult" style="display: none;">
+        ESCOLHA A DIFICULDADE
+    </div>
+
+    <div id="game" style="display:none;">
+        <div class="gameContainer">
+            <h1 id="greeting" style="padding-bottom: 6px;"></h1>
+            <div id="score" style="padding-bottom: 6px;">
+                <span id="playerScore">0</span> - <span id="computerScore">0</span>
+            </div>
+        </div>
+        <canvas id="gameCanvas" width="968px" height="320px"></canvas>
+
+        <p id="timer"></p>
+
+        <div class="row" style="padding-top: 10px;">
+            <i class="fa-solid fa-arrow-up"
+                style="padding: 12px; border: 2px solid white; border-radius: 12px; color: white;"></i>
+            <i class="fa-solid fa-arrow-down"
+                style="padding: 12px; margin-left: 4px; border: 2px solid white; border-radius: 12px; color: white;"></i>
+            <h5 style="padding-left: 10px;">Mover a raquete</h5>
+            <span
+                style="padding: 12px; margin-left: 10px; border: 2px solid white; border-radius: 12px; color: white;">Z</span>
+            <h5 style="padding-left: 10px;">Rebater a bola</h5>
+        </div>
+
+        <div class="row" style="padding-top: 10px;">
+        </div>
+
+
+
+        <!-- <div class="buttons">
+            <div class="buttonsContainer">
+                <button onclick="changeDifficult('easy')">Fácil</button>
+                <button onclick="changeDifficult('normal')">Normal</button>
+                <button onclick="changeDifficult('hard')">Difícil</button>
+            </div>
+        </div> -->
+
+        <footer>
+            Copyright&copy; 2024 OPEN MIND
+        </footer>
+    </div>
+
+    <audio id="som-colisao-parede">
+        <source src="assets/sounds/jump.wav" type="audio/wav">
+        Seu navegador não suporta esse tipo de audio
+    </audio>
+
+    <audio id="som-colisao-player">
+        <source src="assets/sounds/colisao-player.wav" type="audio/wav">
+        Seu navegador não suporta esse tipo de audio
+    </audio>
+    <script src="singleplayer.js"></script>
+    <script src="multiplayer.js"></script>
+</body>
+
+</html>
