@@ -91,15 +91,24 @@ for (let i = 0; i < 6; i++) { // Supondo que você tenha 6 imagens na sequência
 
 }
 
-function startGame(isMulti = false) {
+function startGame() {
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const difficult = urlParams.get('difficult');
+
+    if(difficult == 'normal') {
+        ofBallSpeedX = 10;
+    } else if(difficult == 'hard') {
+        ofBallSpeedX = 12;
+    }
 
     // playerName = document.getElementById('playerName').value || "Jogador"; // Define o nome do jogador
 
     // MOVE PARA A PRÓXIMA CENA
 
-    document.getElementById('welcome').style.display = 'none';
+    // document.getElementById('welcome').style.display = 'none';
     // document.getElementById('help').style.display = 'flex';
-    document.getElementById('game').style.display = 'flex';
+    // document.getElementById('game').style.display = 'flex';
 
     document.getElementById('greeting').innerText = `Bem-vindo, ${playerName}!`; // Define o texto de boas-vindas
 
@@ -121,9 +130,10 @@ function resetGame() {
     playerScore = 0;
     computerScore = 0;
     ballX = 55;
-    ballY = canvas.height / 2;
-    ballSpeedX = ofBallSpeedX;
-    ballSpeedY = velBallY;
+    ballY = playerY + 34;
+    // ballSpeedX = 0;
+    // ballSpeedY = 0;
+    isHolding = true;
 }
 
 function gameLoop(timestamp) {
@@ -269,22 +279,31 @@ function resetBall(isTwoScored = false) {
 }
 
 function moveComputerPaddle() {
-
     if (computerY + paddleHeight / 2 < ballY) {
         computerY += velComputerY;
+        // if (isHolding) {
+        //     ballY += velComputerY;
+        // }
     } else {
         computerY -= velComputerY;
+        // if (isHolding) {
+        //     ballY -= velComputerY;
+        // }
     }
-
-
 }
 
 function movePlayerPaddle() {
     if (upPressed && playerY > 0) {
         playerY -= velPlayerY;
+        if (isHolding) {
+            ballY -= velPlayerY;
+        }
     }
     if (downPressed && playerY < canvas.height - paddleHeight) {
         playerY += velPlayerY;
+        if (isHolding) {
+            ballY += velPlayerY;
+        }
     }
 }
 
@@ -304,32 +323,6 @@ function checkScore() { //Verifica se o jogador ou a IA ganharam
     if (playerScore >= maxScore || computerScore >= maxScore) { // Verifica quem atingiu a pontuação máxima
         alert(`${playerScore >= maxScore ? playerName : 'Computador'} venceu!`); // Alerta mostrando quem ganhou
         resetGame(); // Reseta o jogo
-    }
-}
-
-function changeDifficult(difficult) {
-    if (difficult == 'easy') {
-
-        ofBallSpeedX = 8;
-
-        // velComputerY = 3.2;
-        // ballSpeedY = 4.2;
-
-    } else if (difficult == 'normal') {
-
-        ofBallSpeedX = 10;
-
-        // velComputerY = 4.5;
-        // ballSpeedY = 5.9;
-
-    } else {
-
-        ofBallSpeedX = 12;
-
-        // velPlayerY = 6.5;
-        // velComputerY = 6.5;
-        // ballSpeedY = 8.5;
-
     }
 }
 

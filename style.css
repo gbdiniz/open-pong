@@ -1,3 +1,7 @@
+:root {
+    --primary: #985DC7;
+}
+
 * {
     font-family: "Press Start 2P", system-ui;
     font-size: 12px;
@@ -55,6 +59,7 @@ body {
     width: 100vw;
     max-height: 900px;
     max-width: 1600px;
+    perspective: 700px;
     margin: 0 auto;
     text-align: center;
     display: flex;
@@ -62,16 +67,26 @@ body {
     align-items: center;
 }
 
-.login-container h1 {
-    font-size: 3vw;
+.title-area {
+    perspective: 500px;
+}
+
+.title-area img {
+    transform-style: preserve-3d;
+    transform: rotateX(45deg);
+}
+
+.title-area h1 {
+    font-size: 4vw;
     margin-bottom: 20px;
     color: #391f44;
+    transform-style: preserve-3d;
+    transform: rotateX(45deg);
     text-shadow: -1px 1px 0 white,
         1px 1px 0 white,
         1px -1px 0 white,
         -1px -1px 0 white;
 }
-
 
 .container {
     width: 90%;
@@ -112,11 +127,14 @@ body {
     flex-direction: column;
 }
 
-.menu-choose button {
+.menu-choose>button,
+.menu-choose>.row>button {
     width: 100%;
     margin: 10px;
     margin-left: -10px;
     display: flex;
+    justify-content: center;
+    align-items: center;
     border: none;
     border-radius: 5px;
     background-color: transparent;
@@ -128,17 +146,18 @@ body {
     transition-timing-function: ease-out;
 }
 
-.menu-choose button:hover {
+.menu-choose>button:hover,
+.menu-choose>.row>button:hover {
     font-size: 22px;
     color: #b8daf0;
 }
 
-.menu-choose button > i {
+.menu-choose button>i {
     margin-top: 8px;
     margin-right: 16px;
 }
 
-.menu-choose button > i.hide-icon {
+.menu-choose button>i.hide-icon {
     transition: all 0.5s;
     position: relative;
     left: -10px;
@@ -148,6 +167,53 @@ body {
 .menu-choose button:hover>i.hide-icon {
     left: 0;
     opacity: 1;
+}
+
+.difficult-selector {
+    display: flex;
+    flex-direction: row;
+    border: 2px solid white;
+    border-radius: 8px;
+    position: absolute;
+    left: 58%;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: all 1s;
+}
+
+.difficult-selector button {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: white;
+    padding: 8px;
+    border-right: 2px solid white;
+    transition: color 1s;
+}
+
+.difficult-selector button:first-child:hover {
+    color: green;
+}
+
+.difficult-selector button:first-child+button:hover {
+    color: var(--primary);
+}
+
+.difficult-selector button:first-child+button+button:hover {
+    color: red;
+}
+
+#single-player {
+    transition: all 1s ease;
+}
+
+#single-player:focus {
+    transform: translateX(-38%);
+}
+
+#single-player:focus+.difficult-selector {
+    left: 50%;
+    transform: scaleX(1);
 }
 
 #game {

@@ -17,8 +17,10 @@
     <div id="welcome">
         <div class="login-container">
             <div class="container">
-                <img src="assets/images/logo.png" alt="Logo">
-                <h1>OPEN-PONG</h1>
+                <div class="title-area">
+                    <img src="assets/images/logo.png" alt="Logo">
+                    <h1>OPEN-PONG</h1>
+                </div>
                 <form id="loginForm">
                     <!-- <div class="form-group">
                         <label for="playerName">Digite seu nome:</label>
@@ -26,11 +28,17 @@
                     </div> -->
                 </form>
                 <div class="menu-choose">
-                    <button class="opt-button" type="button" onclick="startGame()"><i
-                            class="fa-solid fa-play fa-bounce fa-lg hide-icon"></i><i
-                            class="fa-solid fa-child fa-lg"></i> Um jogador</button>
-                    <button type="button" onclick="startGame(isMulti = true)"><i
-                            class="fa-solid fa-play fa-bounce fa-lg hide-icon"></i>
+                    <div class="row">
+                        <button id="single-player" class="opt-button" type="button"><i
+                                class="fa-solid fa-play fa-bounce fa-lg hide-icon"></i><i
+                                class="fa-solid fa-child fa-lg"></i> Um jogador</button>
+                        <div class="difficult-selector">
+                            <button id="easy">Fácil</button>
+                            <button id="normal">Normal</button>
+                            <button id="hard">Difícil</button>
+                        </div>
+                    </div>
+                    <button type="button"><i class="fa-solid fa-play fa-bounce fa-lg hide-icon"></i>
                         <i class="fa-solid fa-child fa-lg" style="color: #c4c4c4;"></i><i
                             class="fa-solid fa-child fa-lg" style="margin-left: -24px;"></i>Dois jogadores</button>
                 </div>
@@ -39,9 +47,26 @@
         </div>
     </div>
 
-    <div id="choose-difficult" style="display: none;">
-        ESCOLHA A DIFICULDADE!
-    </div>
+    <script>
+        const url = 'singleplayer.html';
+
+        const easy = document.getElementById('easy');
+        const normal = document.getElementById('normal');
+        const hard = document.getElementById('hard');
+
+        easy.addEventListener('click', () => {
+            window.location.href = `${url}?difficult=easy`;
+        });
+
+        normal.addEventListener('click', () => {
+            window.location.href = `${url}?difficult=normal`;
+        });
+
+        hard.addEventListener('click', () => {
+            window.location.href = `${url}?difficult=hard`;
+        });
+
+    </script>
 </body>
 
 </html>
