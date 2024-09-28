@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Open-Pong</title>
+    <link rel="icon" type="image/x-icon" href="assets/images/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/28ffdab0f6.js" crossorigin="anonymous"></script>
+</head>
+
+<body onload="startGame()">
+    <div id="game" style="display: flex;">
+        <div class="gameContainer">
+            <h1 id="greeting" style="padding-bottom: 6px;"></h1>
+            <div id="score" style="padding-bottom: 6px;">
+                <span id="playerScore">0</span> - <span id="computerScore">0</span>
+            </div>
+        </div>
+        <canvas id="gameCanvas" width="968px" height="320px"></canvas>
+
+        <p id="timer"></p>
+
+        <div class="row" style="padding-top: 10px;">
+            Player 1 :
+            <span
+                style="padding: 12px 10px 12px 13px; border: 2px solid white; border-radius: 12px; color: white;">W</span>
+            <span
+                style="padding: 12px 10px 12px 13px; margin-left: 4px; border: 2px solid white; border-radius: 12px; color: white;">S</span>
+            <h5 style="padding-left: 10px;">Mover a raquete</h5>
+            <span
+                style="padding: 12px 10px 12px 13px; margin-left: 4px; border: 2px solid white; border-radius: 12px; color: white;">C</span>
+            <h5 style="padding-left: 10px;">Rebater a bola</h5>
+        </div>
+
+        <div class="row" style="padding-top: 10px;">
+            Player 2 :
+            <span style="padding: 12px 10px 12px 13px; border: 2px solid white; border-radius: 12px; color: white;"><i
+                    class="fa-solid fa-arrow-up"></i></span>
+            <span
+                style="padding: 12px 10px 12px 13px; margin-left: 4px; border: 2px solid white; border-radius: 12px; color: white;"><i
+                    class="fa-solid fa-arrow-down"></i></span>
+            <h5 style="padding-left: 10px;">Mover a raquete</h5>
+            <span
+                style="padding: 12px 10px 12px 13px; margin-left: 4px; border: 2px solid white; border-radius: 12px; color: white;">CTRL</span>
+            <h5 style="padding-left: 10px;">Rebater a bola</h5>
+        </div>
+
+        <footer>
+            Copyright&copy; 2024 OPEN MIND
+        </footer>
+    </div>
+
+    <audio id="som-colisao-parede">
+        <source src="assets/sounds/jump.wav" type="audio/wav">
+        Seu navegador não suporta esse tipo de audio
+    </audio>
+
+    <audio id="som-colisao-player">
+        <source src="assets/sounds/colisao-player.wav" type="audio/wav">
+        Seu navegador não suporta esse tipo de audio
+    </audio>
+    <script src="multiplayer.js"></script>
+    <!-- <script src="multiplayer.js"></script> -->
+</body>
+
+</html>

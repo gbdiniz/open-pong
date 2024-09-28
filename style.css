@@ -1,20 +1,23 @@
+:root {
+    --primary: #985DC7;
+}
+
+* {
+    font-family: "Press Start 2P", system-ui;
+    font-size: 12px;
+    font-weight: 400;
+    font-style: normal;
+    margin: 0;
+}
+
 body {
-    font-family: Arial, sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
-    margin: 0;
-    background-color: #282c34;
+    background-color: #2F2E50;
     color: #61dafb;
-}
-
-#gameCanvas {
-    background-image: url('assets/sprites/table.png');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
 }
 
 #welcome {
@@ -22,19 +25,76 @@ body {
     width: 100%;
 }
 
-.login-container {
-    background-color: #20232a;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    max-width: 400px;
-    margin: 0 auto; 
-    text-align: center;
+.help-container {
+    background-image: url('assets/images/open-pong-bg.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
 }
 
-.login-container h1 {
+.row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    /* background-color: #20232a; */
+    background-image: url('assets/images/open-pong-bg.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    width: 100vw;
+    max-height: 900px;
+    max-width: 1600px;
+    perspective: 700px;
+    margin: 0 auto;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.title-area {
+    perspective: 500px;
+}
+
+.title-area img {
+    transform-style: preserve-3d;
+    transform: rotateX(45deg);
+}
+
+.title-area h1 {
+    font-size: 4vw;
     margin-bottom: 20px;
-    color: #61dafb;
+    color: #391f44;
+    transform-style: preserve-3d;
+    transform: rotateX(45deg);
+    text-shadow: -1px 1px 0 white,
+        1px 1px 0 white,
+        1px -1px 0 white,
+        -1px -1px 0 white;
+}
+
+.container {
+    width: 90%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
 
 .form-group {
@@ -45,42 +105,199 @@ body {
 .form-group label {
     display: block;
     margin-bottom: 5px;
-    color: #61dafb;
+    color: #391f44;
+    text-shadow: -1px 1px 0 white,
+        1px 1px 0 white,
+        1px -1px 0 white,
+        -1px -1px 0 white;
 }
 
 .form-group input {
-    width: 100%;
+    width: 97%;
     padding: 10px;
     border: 1px solid #61dafb;
     border-radius: 5px;
     background-color: #282c34;
     color: #61dafb;
-    font-size: 16px;
+    font-size: 12px;
 }
 
+.menu-choose {
+    display: flex;
+    flex-direction: column;
+}
 
-button {
+.menu-choose>button,
+.menu-choose>.row>button {
     width: 100%;
-    padding: 10px;
+    margin: 10px;
+    margin-left: -10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: none;
     border-radius: 5px;
-    background-color: #61dafb;
+    background-color: transparent;
     color: #20232a;
-    font-size: 16px;
+    font-size: 20px;
     cursor: pointer;
+    color: white;
+    transition: all 0.5s;
+    transition-timing-function: ease-out;
 }
 
-button:hover {
-    background-color: #b8daf0;
+.menu-choose>button:hover,
+.menu-choose>.row>button:hover {
+    font-size: 22px;
+    color: #b8daf0;
+}
+
+.menu-choose button>i {
+    margin-top: 8px;
+    margin-right: 16px;
+}
+
+.menu-choose button>i.hide-icon {
+    transition: all 0.5s;
+    position: relative;
+    left: -10px;
+    opacity: 0;
+}
+
+.menu-choose button:hover>i.hide-icon {
+    left: 0;
+    opacity: 1;
+}
+
+.difficult-selector {
+    display: flex;
+    flex-direction: row;
+    border: 2px solid white;
+    border-radius: 8px;
+    position: absolute;
+    left: 58%;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: all 1s;
+}
+
+.difficult-selector button {
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: white;
+    padding: 8px;
+    border-right: 2px solid white;
+    transition: color 1s;
+}
+
+.difficult-selector button:first-child:hover {
+    color: green;
+}
+
+.difficult-selector button:first-child+button:hover {
+    color: var(--primary);
+}
+
+.difficult-selector button:first-child+button+button:hover {
+    color: red;
+}
+
+#single-player {
+    transition: all 1s ease;
+}
+
+#single-player:focus {
+    transform: translateX(-38%);
+}
+
+#single-player:focus+.difficult-selector {
+    left: 50%;
+    transform: scaleX(1);
 }
 
 #game {
-    display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    background-image: url('assets/images/open-pong-bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    height: 100vh;
+    width: 100vw;
+    max-height: 900px;
+    max-width: 1600px;
+}
+
+.gameContainer {
+    width: 968px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#greeting {
+    font-size: 1.4vw;
 }
 
 #score {
     font-size: 24px;
     margin-top: 10px;
+}
+
+#score span {
+    font-size: 18px;
+}
+
+#gameCanvas {
+    background-image: url('assets/sprites/table.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    max-height: 90%;
+    max-width: 90%;
+}
+
+#timer {
+    position: fixed;
+    font-size: 30px;
+    color: #391f44;
+    text-shadow: -1px 1px 0 white,
+        1px 1px 0 white,
+        1px -1px 0 white,
+        -1px -1px 0 white;
+}
+
+.buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 12px;
+}
+
+.buttonsContainer {
+    display: flex;
+    flex-direction: row;
+    padding-bottom: 5px;
+    width: 80%;
+}
+
+.buttonsContainer button {
+    margin-right: 5px;
+}
+
+footer {
+    position: fixed;
+    padding: 10px 10px;
+    margin-top: auto;
+    bottom: 0;
+    right: 20%;
+    left: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
