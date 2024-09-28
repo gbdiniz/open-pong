@@ -59,7 +59,7 @@ let alreadyTwoPressed = false;
 
 let ballX = 55, ballY = canvas.height / 2;
 let velBallY = 2;
-var ofBallSpeedX = 8;
+var ofBallSpeedX = 11;
 let ballSpeedX = 0, ballSpeedY = 0;
 
 var gravity = 0.5;
