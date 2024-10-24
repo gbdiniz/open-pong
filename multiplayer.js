@@ -270,8 +270,6 @@ function resetBall(isTwoScored = false) {
         ballSpeedX = 0;
         ballSpeedY = 0;
         isTwoHolding = true;
-
-
     } else {
         ballX = 55;
         ballY = playerY + 34;
